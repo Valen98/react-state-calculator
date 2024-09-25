@@ -1,56 +1,61 @@
 import "./App.css"
+import { useState } from "react"
+import Buttons from './components/buttons'
 
 function App() {
+  let [firstNumber, setFirstNumber] = useState(0)
+  let [secondNumber, setSecondNumber] = useState(0)
+  let [operator, setOperator] = useState('+')
+  let [result, setResult] = useState(0)
+  let [isDecimal, setDecimal] = useState(false)
+  let [isSecondDecimal, setSecondDecimal] = useState(false)
+
+  const calculate = () => {
+    let fixedResult = ''
+    switch(operator) {
+      case '-':
+        fixedResult += (parseFloat(firstNumber) - parseFloat(secondNumber))
+        break
+      case 'x':
+        fixedResult += (parseFloat(firstNumber ) * parseFloat(secondNumber))
+        break
+      case '÷':
+        if(firstNumber === 0 && secondNumber === 0) {
+          setResult(0)
+        }else {
+          fixedResult += (parseFloat(firstNumber ) / parseFloat(secondNumber))
+        }
+        break
+      default: 
+        fixedResult += (parseFloat(firstNumber ) + parseFloat(secondNumber))
+        break
+    }
+
+    if(fixedResult.includes('.')) {
+      fixedResult = parseFloat(fixedResult).toFixed(3)
+    }
+
+    setResult(fixedResult)
+
+  }
 
   return (
     <div className="calculator">
+      <Buttons id={0} number={firstNumber} setFirstnumber={setFirstNumber} operator={operator} isDecimal={isDecimal} setDecimal={setDecimal}/> 
       <div className="panel">
-        <p>0</p>
+        <p>{operator}</p>
         <div className="numbers">
-          <button>1</button>
-          <button>2</button>
-          <button>3</button>
-          <button>4</button>
-          <button>5</button>
-          <button>6</button>
-          <button>7</button>
-          <button>8</button>
-          <button>9</button>
-          <button>0</button>
-          <button>Clear</button>
+          <button onClick={() => setOperator('+')}>+</button>
+          <button onClick={() => setOperator('-')}>-</button>
+          <button onClick={() => setOperator('x')}>x</button>
+          <button onClick={() => setOperator('÷')}>÷</button>
         </div>
       </div>
-
-      <div className="panel">
-        <p>+</p>
-        <div className="numbers">
-          <button>+</button>
-          <button>-</button>
-          <button>*</button>
-          <button>÷</button>
-        </div>
-      </div>
-
-      <div className="panel">
-        <p>0</p>
-        <div className="numbers">
-          <button>1</button>
-          <button>2</button>
-          <button>3</button>
-          <button>4</button>
-          <button>5</button>
-          <button>6</button>
-          <button>7</button>
-          <button>8</button>
-          <button>9</button>
-          <button>0</button>
-          <button>Clear</button>
-        </div>
-      </div>
+      <Buttons id={10} number={secondNumber} setSecondNumber={setSecondNumber} operator={operator}  isDecimal={isSecondDecimal} setDecimal={setSecondDecimal} />
       <div className="panel answer">
-        <p>0</p>
+        <p>{result}</p>
         <div>
-          <button>=</button>
+          <button onClick={() => calculate()}>=</button>
         </div>
       </div>
     </div>
