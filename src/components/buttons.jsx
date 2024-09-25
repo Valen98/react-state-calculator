@@ -1,11 +1,17 @@
 import { useState } from "react"
 
-export default function buttons({id, number, setNumber, isDecimal, setDecimal}) {
+export default function buttons({id, number, setNumber, isDecimal, setDecimal, storeVal}) {
     let buttonList = []
 
     const handleNumberClick = (digit) => {
         if(number === 0) {
             number = ''
+        }
+
+        if(digit === -1) {
+            setNumber(0)
+            setDecimal(false)
+            return
         }
 
         if(digit === '.' && number === '') {
@@ -16,28 +22,22 @@ export default function buttons({id, number, setNumber, isDecimal, setDecimal}) 
         let numberString = number.toString()
         let digitString = digit.toString()
         if(isDecimal) {
-            if(digit === -1) {
-                setNumber(0)
-                setDecimal(false)
+            if(!numberString.includes('.')) { 
+                setNumber(numberString + '.' + digitString)
             }else {
-                if(!numberString.includes('.')) { 
-                    setNumber(numberString + '.' + digitString)
-                }else {
-                    setNumber(numberString + digitString)
-                } 
-            }    
+                setNumber(numberString + digitString)
+            } 
+              
         }else {
-            if(digit === -1) {
-                setNumber(0)
-                setDecimal(false)
-            }
             if(numberString.length <= 0 && digit === 0){
             }else {
                 setNumber(numberString + digitString)
-            }
-                    
+            }           
         }
-        
+    }
+
+    const recall = (recallVal) => {
+        setNumber(recallVal)
     }
 
     for(let i = 1; i <= 9; i++) {
@@ -47,6 +47,7 @@ export default function buttons({id, number, setNumber, isDecimal, setDecimal}) 
     buttonList.push(<button key={id+20} onClick={() => {handleNumberClick(0)}}>0</button>)
     buttonList.push(<button key={id+21} onClick={() => {setDecimal(true), handleNumberClick('.')}}>.</button>)
     buttonList.push(<button key={id+22} onClick={() => {handleNumberClick(-1)}}>clear</button>)
+    buttonList.push(<button key={id+23} onClick={() => {recall(storeVal)}}>Recall</button>)
 
     return (
     <div className="panel">
