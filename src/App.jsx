@@ -41,7 +41,7 @@ function App() {
 
   return (
     <div className="calculator">
-      <Buttons id={0} number={firstNumber} setFirstnumber={setFirstNumber} operator={operator} isDecimal={isDecimal} setDecimal={setDecimal}/> 
+      <Buttons id={0} number={firstNumber} setNumber={setFirstNumber} isDecimal={isDecimal} setDecimal={setDecimal}/> 
       <div className="panel">
         <p>{operator}</p>
         <div className="numbers">
@@ -51,7 +51,7 @@ function App() {
           <button onClick={() => setOperator('÷')}>÷</button>
         </div>
       </div>
-      <Buttons id={10} number={secondNumber} setSecondNumber={setSecondNumber} operator={operator}  isDecimal={isSecondDecimal} setDecimal={setSecondDecimal} />
+      <Buttons id={10} number={secondNumber} setNumber={setSecondNumber} isDecimal={isSecondDecimal} setDecimal={setSecondDecimal} />
       <div className="panel answer">
         <p>{result}</p>
         <div>
